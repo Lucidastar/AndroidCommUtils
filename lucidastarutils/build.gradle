@@ -1,0 +1,58 @@
+apply plugin: 'com.android.library'
+apply plugin: 'com.novoda.bintray-release'
+
+android {
+    compileSdkVersion 25
+    buildToolsVersion "26.0.2"
+
+    defaultConfig {
+        minSdkVersion 15
+        targetSdkVersion 25
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    lintOptions {
+        abortOnError false
+    }
+
+    tasks.withType(Javadoc) {
+        options{
+            encoding "UTF-8"
+            charSet 'UTF-8'
+            links "http://docs.oracle.com/javase/8/docs/api"
+        }
+    }
+
+    tasks.withType(Javadoc).all {
+        enabled = false
+    }
+
+}
+//https://blog.csdn.net/lxd_android/article/details/79076312
+publish {
+    userOrg = 'lucidastar'  // bintray注册的用户名
+    repoName = 'LucidaCommonUtils'//要传到的maven的名字。你可能有多个maven，要传哪个写哪个。
+    groupId = 'com.lucidastar'  //compile引用时的第1部分groupId
+    artifactId = 'lucidastarutils'  // bintray创建的package  compile引用时的第2部分项目名
+    publishVersion = '1.0.0'//compile引用时的第3部分版本号
+    desc = 'this is commonly utils for android'
+    website = 'https://github.com/Lucidastar'
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    implementation 'com.android.support:appcompat-v7:25.3.1'
+    androidTestImplementation 'junit:junit:4.12'
+}
